@@ -1,52 +1,20 @@
-# Changelog fragments
+# Bundled 3D Model Attribution
 
-One file per entry. A pull request adds a file here instead of editing
-`CHANGELOG.md`, and a release concatenates them into it.
+The model files in this directory are third-party visual assets. They are not
+covered by the repository's MIT source-code license; each remains available
+under the license listed below.
 
-```
-changelog.d/<pull request number>-<slug>.md
-```
+| File | Original work and creator | Source | License | Project modifications |
+|---|---|---|---|---|
+| `airplane.glb` | “boeing 747” by [zairiq-123](https://sketchfab.com/zairiq-123) | [Sketchfab model](https://sketchfab.com/3d-models/boeing-747-9b16672038ba48f98e6d80a159044ed9) | [CC BY 4.0](https://creativecommons.org/licenses/by/4.0/) | Substantially modified and optimized for God's Eye View, including geometry/material simplification and coordinate/orientation preparation. The former 24× runtime calibration is baked into the mesh; location, rotation, and scale are applied; the bounding-box centre is at the origin; and the model uses glTF +Y-up with its nose toward local −X. Geometry remains uncompressed so the aircraft asset does not compete with photogrammetry for Draco worker capacity. |
+| `jet.glb` | “Private Jet” by [Nick the Name](https://sketchfab.com/Nick_The_Name) | [Sketchfab model](https://sketchfab.com/3d-models/private-jet-cbdd1de6ced9461e950eafaa302cc82b) | [CC BY 4.0](https://creativecommons.org/licenses/by/4.0/) | Repackaged as a glTF binary for the project's military-flight visualization. Imported hierarchy transforms are baked into the meshes; location, rotation, and scale are applied; the bounding-box centre is at the origin; and the model uses meter scale, glTF +Y-up, and the shared nose −X convention. Existing materials are preserved. |
+| `bell206.glb` | “Bell 206 JetRanger” by [terran4627](https://sketchfab.com/terran4627) | [Sketchfab model](https://sketchfab.com/3d-models/bell-206-jetranger-d2f7ba1d671549d4b26aaf834139a1dd) | [CC BY 4.0](https://creativecommons.org/licenses/by/4.0/) | Optimized for God's Eye View: geometry/material simplification, textures resized to 256 px WebP, orientation/scale vertex-baked to real-world meters (Y-up, nose −X), origin centered. |
+| `c172.glb` | “Cessna 172” by [e737](https://sketchfab.com/e0057537) | [Sketchfab model](https://sketchfab.com/3d-models/cessna-172-64cddaee5aff470682659a8c08525046) | [CC BY 4.0](https://creativecommons.org/licenses/by/4.0/) | Optimized for God's Eye View: geometry/material simplification, textures resized to 256 px WebP, orientation/scale vertex-baked to real-world meters (Y-up, nose −X), origin centered. |
+| `citation2.glb` | “1990 Cessna Citation, Texture Detailed, Exterior” by [BlenderCommunityHead](https://sketchfab.com/aboodgoudagad) | [Sketchfab model](https://sketchfab.com/3d-models/1990-cessna-citation-texture-detailed-exterior-a78839624fe64900a8352cb23462350a) | [CC BY 4.0](https://creativecommons.org/licenses/by/4.0/) | Optimized for God's Eye View: geometry/material simplification, textures resized to 256 px WebP, orientation/scale vertex-baked to real-world meters (Y-up, nose −X), origin centered. |
+| `mq9.glb` | “MQ-9” by [IProZenoN](https://sketchfab.com/IProZenoN) | [Sketchfab model](https://sketchfab.com/3d-models/mq-9-fabe963feb354c5584b51f9c470c3f7e) | [CC BY 4.0](https://creativecommons.org/licenses/by/4.0/) | Optimized for God's Eye View: geometry/material simplification, textures resized to 256 px WebP, orientation/scale vertex-baked to real-world meters (Y-up, nose −X), origin centered. |
+| `b789.glb` | “Boeing 787-9” by [Nobilis 2](https://sketchfab.com/nobilishornet2) | [Sketchfab model](https://sketchfab.com/3d-models/boeing-787-9-b6711e2e698e4e469675c1154a50b7a3) | [CC BY 4.0](https://creativecommons.org/licenses/by/4.0/) | Optimized for God's Eye View: geometry/material simplification, textures resized to 256 px WebP, orientation/scale vertex-baked to real-world meters (Y-up, nose −X), origin centered. |
+| `atr72.glb` | “ATR 72 - 600” by [Oyan3D](https://sketchfab.com/oyan3D) | [Sketchfab model](https://sketchfab.com/3d-models/atr-72-600-1e1a7186f7444d288675262fcee44744) | [CC BY 4.0](https://creativecommons.org/licenses/by/4.0/) | Optimized for God's Eye View: geometry/material simplification, textures removed with dominant material colors baked into PBR factors (flat “abstracted” style), orientation/scale vertex-baked to real-world meters (Y-up, nose −X), origin centered. |
 
-`723-atc-decision-layer.md`, for example. The slug is lowercase, words separated
-by `-`. Two pull requests never pick the same filename, because the pull request
-number is already unique — which is the point: new `CHANGELOG.md` entries go at
-the top of the file, so two pull requests in flight write into the same few lines
-and git has nothing to merge on.
-
-Write the file exactly as the entry should read in `CHANGELOG.md`: a `-` bullet,
-wrapped the way the surrounding entries are, crediting yourself and the pull
-request.
-
-```markdown
-- Report which upstream declined a Street Traffic road load. The layer row now
-  reads `Overpass rate-limited` instead of a general "Road data temporarily
-  unavailable" (yourname, #665).
-```
-
-The text is spliced in unchanged apart from trailing whitespace, so what you
-write here is what ships. Fragments are deliberately outside
-`scripts/format-scope.json`, so `npm run format` never reflows one.
-
-At release time:
-
-```
-npm run changelog:check   # list what would move, change nothing
-npm run changelog         # move every fragment into CHANGELOG.md
-```
-
-The assembler refuses a batch rather than guessing: a filename that is not
-`<pull request>-<slug>.md`, or two fragments claiming one pull request number,
-stops the run before anything is written and names the files.
-
-If `npm run changelog` fails part-way (a full disk, a killed process), run it
-again. The batch is staged in `changelog.d/.assembling/` and only lands when the
-assembled file replaces `CHANGELOG.md` in a single rename, so the rerun either
-finishes that batch or puts its fragments back first. It never adds an entry
-twice or drops one. `npm run changelog:check` names a staged batch, if one is
-left over, instead of reporting past it.
-
-A documentation claim that needs a regression test — the way
-`src/annotations/drawTool.test.mjs` asserts against `CHANGELOG.md` — should
-assert against `docs/CURRENT-STATE.md` or `README.md` instead. A pull request
-still edits those directly, so the text is in the file while the change is under
-review; a fragment does not reach `CHANGELOG.md` until release.
+CC BY 4.0 permits sharing and adaptation, including commercial use, provided
+appropriate credit is retained, the license is linked, and modifications are
+identified. These credits do not imply endorsement by the original creators.
